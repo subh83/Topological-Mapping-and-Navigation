@@ -1,5 +1,6 @@
 /**Landmark Placement Algorithm**/
 /* c++ -std=c++11 -g -I. -Idosl LPA.cpp -lopencv_core -lopencv_highgui -lopencv_imgproc */
+// c++ -std=c++11 -g -I. -Idosl LPA.cpp -lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_imgcodecs
 
 #include "1.Libraries.h"
 #include "2.User_Defined_Classes.h"
@@ -36,7 +37,8 @@ int main() {
 	myfile.open (filename);
 
 	for (int a = 0; a < landmarks.size(); ++a) {
-		disp (landmarks[a].coord, image1, Vec3b (0, 0, 255), 0);
+		//disp (landmarks[a].coord, image1, Vec3b (0, 0, 255), 0); // SB
+		disp (image1, landmarks[a].coord, Vec3b (0, 0, 255), 0); // SB
 		LOS_circle_fill (image0, landmarks[a].coord, Rf, 180,
 			(dir - (alpha_final/2)), (dir + (alpha_final/2)), obs_clr, Vec3b(10, 10, 10));
 		myfile << landmarks[a].coord << endl;

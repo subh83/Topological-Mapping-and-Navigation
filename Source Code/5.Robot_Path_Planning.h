@@ -321,6 +321,7 @@ void Navigate (int id, vector<Landmark> path_landmarks, bool & success) {
 }
 
 void Combined_RW_ISW (int id) {
+    int ISW_counter = 0;
 
 	Start:
 
@@ -336,17 +337,18 @@ void Combined_RW_ISW (int id) {
 	searchProblem test_search(rbt);
 	test_search.start_landmarks = &all_observing_landmarks;
 	test_search.obs_count_list = &obs_list;
+    test_search.is_first_search = false; //(ISW_counter==0); // try turning this on later
 	test_search.search();
 	observations_mtx.unlock();
 
 //	cout << test_search.least_observed_count[id] << ", " <<
 //		test_search.least_observed_landmark[id].obs_count << endl;
 
-	if (test_search.least_observed_landmark[id].g_score < 5) {
-		for (int k1 = 0; k1 < 5; ++k1)
+	if (test_search.least_observed_landmark[id].g_score < g_score_thresh ) {
+		for (int k1 = 0; k1 < RW_delta; ++k1) // SB
 			Random_Walk (id);
 		ISW_counter = 0;
-	}
+	} // SB
 
 /*	else {
 		for (int k2 = 0; k2 < obs_list.size(); ++k2) {
@@ -654,10 +656,19 @@ void updated_Homology_Informed_Walk (int id) {
 }
 
 void move_robot(int id) {
-
-	while (sc.C0.S.size() < landmarks.size()/10)
+    
+    int initial_rw_count = 0;
+	while (initial_rw_count <= max_initial_rw) { //( ((double)sc.C0.S.size()) < gamma_percentage*((double)landmarks.size()) ) { // SB
 		Random_Walk (observations[id].rbt_id);
-
+		initial_rw_count++;
+	}
+    
+    cout<< "\n\nInitial random walk done for robot " << id  <<"."
+            << "\ninitial_rw_count: " << initial_rw_count 
+            << std::endl;
+    expl_count_at_initial_RW_end = expl_count;
+    it_at_end_of_initial_RW = iterations_ct;
+    
 	while ((double(C2_size)/sc_number) <= first_percent_complete) //rt > 0.05
 		Combined_RW_ISW (observations[id].rbt_id);
 

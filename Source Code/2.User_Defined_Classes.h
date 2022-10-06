@@ -11,13 +11,13 @@ public:
 	int rbt_id;
 	bool NearOBS = false;
 
-	Landmark () { }
+	Landmark () : obs_count(0) { }
 
-	Landmark (int x, int y) {
+	Landmark (int x, int y) : obs_count(0) {
 		coord = Point(x, y);
 	}
 
-	Landmark (int x, int y, int i) {
+	Landmark (int x, int y, int i) : obs_count(0) {
 		coord = Point(x, y);
 		id = i;
 	}
@@ -556,6 +556,7 @@ class searchProblem: public AStar::Algorithm<Landmark,double> {
 public:
 
 	int rbt_number;
+    bool is_first_search;
 	vector<vector<Landmark>>* start_landmarks;
 	vector<unordered_set<int>>* obs_count_list;
 	vector<int> least_observed_count;
@@ -596,7 +597,8 @@ public:
 	}
 
 	bool stopSearch (Landmark &n) {
-		if (n.obs_count < least_observed_count[n.rbt_id]) {
+		if (n.obs_count < least_observed_count[n.rbt_id]
+		            && (is_first_search || n.G < max_dist_target_landmark_ISW) ) { // SB
 			least_observed_landmark[n.rbt_id] = n;
 			least_observed_count[n.rbt_id] = n.obs_count;
 		}
