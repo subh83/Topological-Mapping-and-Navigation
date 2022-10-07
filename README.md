@@ -1,4 +1,7 @@
-Dependencies: GCC compiler with c++11 support, OpenCV 3.2
+Dependencies:
+* GCC compiler with STL and c++11 support
+* OpenCV 3.2 (for visualization/plotting)
+* Armadillo 8.4 (for linear algebra)
 
 
 **Landmark Placement Algorithm:**
