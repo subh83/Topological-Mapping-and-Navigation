@@ -31,7 +31,7 @@ string image_name = "BC.png";
 string text_name = "BC.txt";
 string nice_image_name = "BC(original).png";
 // need to change the following if the environment changes. Determined by program RS.cpp
-int sc_number(742); // (1439);
+int sc_number(1439); // (1439);
 		// M2: 545190 (75093), L457: 130128 (25945/NR:1531), BC: 236254 (39574/NR:1439), BC_random, NR: 742
 //int sc_number_sparse50(762); // SB
 
