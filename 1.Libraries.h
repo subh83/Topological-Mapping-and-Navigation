@@ -28,7 +28,7 @@ using namespace cv;
 
 bool SE2 = true;
 string image_name = "BC.png";
-string text_name = "BC_random.txt";
+string text_name = "BC.txt";
 string nice_image_name = "BC(original).png";
 // need to change the following if the environment changes. Determined by program RS.cpp
 int sc_number(742); // (1439);
